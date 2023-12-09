@@ -31,6 +31,13 @@ class Fixture extends Model
         $query->where('week', $week);
     }
 
+    //
+
+    public function league(): BelongsTo
+    {
+        return $this->belongsTo(League::class);
+    }
+
     public function homeTeam(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'home_team_id');
