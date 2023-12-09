@@ -43,6 +43,11 @@ class BaseRepository
         return $this->toQuery()->findOrFail($id);
     }
 
+    public function firstOrFail(array $where)
+    {
+        return $this->toQuery()->where($where)->firstOrFail();
+    }
+
     public function update(int $id, array $data)
     {
         $model = $this->findOrFail($id);

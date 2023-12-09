@@ -18,6 +18,9 @@ class TeamFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'team_strength' => $this->faker->numberBetween(50, 100),
+            'home_strength' => $this->faker->numberBetween(0, 20),
+            'away_strength' => $this->faker->numberBetween(0, 20),
         ];
     }
 }
