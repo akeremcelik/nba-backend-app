@@ -17,4 +17,9 @@ class TeamRepository extends BaseRepository implements TeamInterface
     {
         return $this->firstOrCreate($data, []);
     }
+
+    public function getTeams()
+    {
+        return $this->get();
+    }
 }

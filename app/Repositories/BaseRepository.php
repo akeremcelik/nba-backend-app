@@ -22,4 +22,9 @@ class BaseRepository
     {
         return $this->getQuery()->firstOrCreate($data1, $data2);
     }
+
+    public function get()
+    {
+        return $this->getQuery()->get();
+    }
 }
