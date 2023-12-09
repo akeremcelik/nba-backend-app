@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('scoreboards', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('league_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('team_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedSmallInteger('played')->default(0);
             $table->unsignedSmallInteger('won')->default(0);

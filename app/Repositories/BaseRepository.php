@@ -37,4 +37,14 @@ class BaseRepository
     {
         return $this->getQuery()->findOrFail($id);
     }
+
+    public function update(int $id, $data)
+    {
+        return $this->findOrFail($id)->update($data);
+    }
+
+    public function updateOrCreate(array $data1, array $data2)
+    {
+        return $this->getQuery()->updateOrCreate($data1, $data2);
+    }
 }

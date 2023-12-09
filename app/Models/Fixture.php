@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,16 @@ class Fixture extends Model
         'home_team_score',
         'away_team_score',
     ];
+
+    public function scopeLeagueId(Builder $query, int $league_id): void
+    {
+        $query->where('league_id', $league_id);
+    }
+
+    public function scopeWeek(Builder $query, int $week): void
+    {
+        $query->where('week', $week);
+    }
 
     public function homeTeam(): BelongsTo
     {

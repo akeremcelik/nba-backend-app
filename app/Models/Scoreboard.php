@@ -11,6 +11,7 @@ class Scoreboard extends Model
     use HasFactory;
 
     protected $fillable = [
+        'league_id',
         'team_id',
         'played',
         'won',
