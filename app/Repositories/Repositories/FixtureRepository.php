@@ -23,4 +23,9 @@ class FixtureRepository extends BaseRepository implements FixtureInterface
     {
         return $this->getQuery()->with(['homeTeam', 'awayTeam'])->get();
     }
+
+    public function deleteFixtures()
+    {
+        return $this->delete();
+    }
 }

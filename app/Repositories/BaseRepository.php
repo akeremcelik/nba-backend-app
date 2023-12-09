@@ -32,4 +32,9 @@ class BaseRepository
     {
         return $this->getQuery()->get();
     }
+
+    public function delete()
+    {
+        return $this->getQuery()->delete();
+    }
 }

@@ -16,6 +16,7 @@ class FixtureController extends Controller
 
     public function generateFixtures(): void
     {
+        $this->fixtureService->clear();
         $this->fixtureService->generate();
     }
 

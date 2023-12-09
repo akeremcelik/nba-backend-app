@@ -27,4 +27,9 @@ class FixtureService
     {
         return $this->fixtureRepository->listFixtures();
     }
+
+    public function clear()
+    {
+        return $this->fixtureRepository->deleteFixtures();
+    }
 }

@@ -6,4 +6,5 @@ interface FixtureInterface
 {
     public function createFixture(array $data);
     public function listFixtures();
+    public function deleteFixtures();
 }
