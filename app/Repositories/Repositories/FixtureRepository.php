@@ -19,13 +19,11 @@ class FixtureRepository extends BaseRepository implements FixtureInterface
         return $this->create($data);
     }
 
-    public function listFixtures()
+    public function listFixturesByLeagueId(int $league_id)
     {
-        return $this->getQuery()->with(['homeTeam', 'awayTeam'])->get();
-    }
-
-    public function deleteFixtures()
-    {
-        return $this->delete();
+        return $this->getQuery()
+            ->where('league_id', $league_id)
+            ->with(['homeTeam', 'awayTeam'])
+            ->get();
     }
 }

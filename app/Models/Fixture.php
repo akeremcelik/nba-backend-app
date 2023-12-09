@@ -11,9 +11,11 @@ class Fixture extends Model
     use HasFactory;
 
     protected $fillable = [
+        'league_id',
         'week',
         'home_team_id',
         'away_team_id',
+        'is_played',
         'home_team_score',
         'away_team_score',
     ];

@@ -5,6 +5,5 @@ namespace App\Repositories\Contracts;
 interface FixtureInterface
 {
     public function createFixture(array $data);
-    public function listFixtures();
-    public function deleteFixtures();
+    public function listFixturesByLeagueId(int $league_id);
 }

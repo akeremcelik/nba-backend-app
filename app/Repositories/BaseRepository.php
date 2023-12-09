@@ -33,8 +33,8 @@ class BaseRepository
         return $this->getQuery()->get();
     }
 
-    public function delete()
+    public function findOrFail(int $id)
     {
-        return $this->getQuery()->delete();
+        return $this->getQuery()->findOrFail($id);
     }
 }

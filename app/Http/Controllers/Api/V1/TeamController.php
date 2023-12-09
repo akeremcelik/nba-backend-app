@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class TeamController extends Controller
 {
-    public function __construct(private TeamInterface $teamRepository)
+    public function __construct(protected TeamInterface $teamRepository)
     {
         //
     }

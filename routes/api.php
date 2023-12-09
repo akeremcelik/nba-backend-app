@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\TeamController;
 use App\Http\Controllers\Api\V1\FixtureController;
+use App\Http\Controllers\Api\V1\PlayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,9 @@ use App\Http\Controllers\Api\V1\FixtureController;
 Route::prefix('v1')->group(function () {
     Route::get('teams', [TeamController::class, 'getTeams']);
 
-    Route::prefix('fixtures')->group(function () {
-        Route::post('generate', [FixtureController::class, 'generateFixtures']);
-        Route::get('list', [FixtureController::class, 'listFixtures']);
+    Route::post('generate-fixtures', [FixtureController::class, 'generateFixtures']);
+    Route::prefix('leagues/{league_id}')->group(function () {
+        Route::get('list-fixtures', [FixtureController::class, 'listFixtures']);
+        Route::post('play-next-week', [PlayController::class, 'playNextWeek']);
     });
 });
