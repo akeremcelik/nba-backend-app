@@ -21,18 +21,6 @@ class Fixture extends Model
         'away_team_score',
     ];
 
-    public function scopeLeagueId(Builder $query, int $league_id): void
-    {
-        $query->where('league_id', $league_id);
-    }
-
-    public function scopeWeek(Builder $query, int $week): void
-    {
-        $query->where('week', $week);
-    }
-
-    //
-
     public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);

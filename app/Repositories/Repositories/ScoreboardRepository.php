@@ -13,9 +13,4 @@ class ScoreboardRepository extends BaseRepository implements ScoreboardInterface
     {
         parent::__construct($model);
     }
-
-    public function updateOrCreateScoreboard($data1, $data2)
-    {
-        return $this->updateOrCreate($data1, $data2);
-    }
 }

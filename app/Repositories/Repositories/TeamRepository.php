@@ -15,11 +15,11 @@ class TeamRepository extends BaseRepository implements TeamInterface
 
     public function createTeam(array $data)
     {
-        return $this->firstOrCreate($data, []);
+        return $this->firstOrCreate($data);
     }
 
     public function getTeams()
     {
-        return $this->get();
+        return $this->all();
     }
 }

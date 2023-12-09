@@ -26,7 +26,7 @@ class PlayService
         $finalWeek = $league->final_week;
 
         if ($atWeek < $finalWeek) {
-            $fixtures = $this->fixtureRepository->listFixturesByLeagueIdAndWeek($league_id, $atWeek+1);
+            $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league_id, $atWeek+1);
             foreach ($fixtures as $fixture) {
                 $this->playFixture($fixture);
             }
@@ -45,7 +45,5 @@ class PlayService
         ];
 
         $this->fixtureRepository->updateFixture($fixture->id, $data);
-
-        $this->scoreboardRepository->updateOrCreateScoreboard();
     }
 }

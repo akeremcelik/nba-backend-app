@@ -13,38 +13,41 @@ class BaseRepository
         $this->model = $model;
     }
 
-    public function getQuery()
+    public function toQuery()
     {
         return $this->model->query();
     }
 
+    public function all(array $relations = [])
+    {
+        return $this->toQuery()->with($relations)->get();
+    }
+
+    public function allWithWhere(array $relations = [], array $where = [])
+    {
+        return $this->toQuery()->where($where)->with($relations)->get();
+    }
+
+    public function firstOrCreate(array $data1, array $data2 = [])
+    {
+        return $this->toQuery()->firstOrCreate($data1, $data2);
+    }
+
     public function create(array $data)
     {
-        return $this->getQuery()->create($data);
-    }
-
-    public function firstOrCreate(array $data1, array $data2)
-    {
-        return $this->getQuery()->firstOrCreate($data1, $data2);
-    }
-
-    public function get()
-    {
-        return $this->getQuery()->get();
+        return $this->toQuery()->create($data);
     }
 
     public function findOrFail(int $id)
     {
-        return $this->getQuery()->findOrFail($id);
+        return $this->toQuery()->findOrFail($id);
     }
 
-    public function update(int $id, $data)
+    public function update(int $id, array $data)
     {
-        return $this->findOrFail($id)->update($data);
-    }
+        $model = $this->findOrFail($id);
+        $model->update($data);
 
-    public function updateOrCreate(array $data1, array $data2)
-    {
-        return $this->getQuery()->updateOrCreate($data1, $data2);
+        return $model->fresh();
     }
 }
