@@ -23,7 +23,7 @@ class FixtureController extends Controller
     public function generateFixtures()
     {
         $league = $this->leagueService->create();
-        $this->fixtureService->generate($league);
+        $this->fixtureService->generate($league->id);
 
         return LeagueResource::make($league);
     }
