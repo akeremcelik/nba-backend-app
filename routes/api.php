@@ -19,5 +19,8 @@ use App\Http\Controllers\Api\V1\FixtureController;
 Route::prefix('v1')->group(function () {
     Route::get('teams', [TeamController::class, 'getTeams']);
 
-    Route::post('generate-fixtures', [FixtureController::class, 'generateFixtures']);
+    Route::prefix('fixtures')->group(function () {
+        Route::post('generate', [FixtureController::class, 'generateFixtures']);
+        Route::get('list', [FixtureController::class, 'listFixtures']);
+    });
 });
