@@ -18,13 +18,8 @@ class BaseRepository
         return $this->model->query();
     }
 
-    public function all()
+    public function firstOrCreate(array $data1, array $data2)
     {
-        return $this->getQuery()->get();
-    }
-
-    public function create($data)
-    {
-        return $this->getQuery()->create($data);
+        return $this->getQuery()->firstOrCreate($data1, $data2);
     }
 }
