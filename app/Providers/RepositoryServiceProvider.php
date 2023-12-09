@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\TeamInterface;
-use App\Repositories\Models\TeamRepository;
+use App\Repositories\Repositories\TeamRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
