@@ -23,4 +23,13 @@ class PlayController extends Controller
             echo $exception;
         }
     }
+
+    public function playAllWeeks(League $league)
+    {
+        try {
+
+        } catch (\Exception $exception) {
+            echo $exception;
+        }
+    }
 }

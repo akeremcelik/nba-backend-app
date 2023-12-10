@@ -12,17 +12,15 @@ use App\Repositories\Contracts\ScoreboardInterface;
 class PlayService
 {
     public function __construct(
-        protected LeagueInterface     $leagueRepository,
-        protected FixtureInterface    $fixtureRepository,
-        protected ScoreboardInterface $scoreboardRepository,
+        protected LeagueInterface            $leagueRepository,
+        protected FixtureInterface           $fixtureRepository,
+        protected ScoreboardInterface        $scoreboardRepository,
+        protected StrengthCalculationService $strengthCalculationService,
+        protected ScoreCalculationService    $scoreCalculationService,
     )
     {
         //
     }
-
-    const HOME_CONSTANT = 1.5;
-    const AWAY_CONSTANT = 1.0;
-    const RANDOM_STRENGTH_CONSTANT = 50;
 
     public function playWeek(League $league, int $week)
     {
@@ -49,7 +47,10 @@ class PlayService
 
     public function playFixture(Fixture $fixture)
     {
-        $scores = $this->determineTeamScores($fixture->homeTeam, $fixture->awayTeam);
+        $homeTeamTotalStrength = $this->strengthCalculationService->calculateHomeTeamStrength($fixture->homeTeam);
+        $awayTeamTotalStrength = $this->strengthCalculationService->calculateAwayTeamStrength($fixture->awayTeam);
+
+        $scores = $this->scoreCalculationService->determineTeamScores($homeTeamTotalStrength, $awayTeamTotalStrength);
 
         $data = [
             'is_played' => true,
@@ -61,54 +62,6 @@ class PlayService
 
         $this->updateHomeTeamScoreboard($fixture, $scores);
         $this->updateAwayTeamScoreboard($fixture, $scores);
-    }
-
-    public function determineTeamScores(Team $homeTeam, Team $awayTeam)
-    {
-        $homeTeamTotalStrength = $this->calculateHomeTeamStrength($homeTeam);
-        $awayTeamTotalStrength = $this->calculateAwayTeamStrength($awayTeam);
-
-        if ($homeTeamTotalStrength === $awayTeamTotalStrength) {
-            // avoid draw
-            random_int(0, 1) === 0 ? $homeTeamTotalStrength+=1 : $awayTeamTotalStrength+=1;
-        }
-
-        $randomScore = random_int(80, 100);
-        $homeTeamScore = $randomScore;
-        $awayTeamScore = $randomScore;
-
-        if ($homeTeamTotalStrength > $awayTeamTotalStrength) {
-            $homeTeamScore = $awayTeamScore + random_int(1, ($homeTeamTotalStrength - $awayTeamTotalStrength));
-        } elseif ($homeTeamTotalStrength < $awayTeamTotalStrength) {
-            $awayTeamScore = $homeTeamScore + random_int(1, ($awayTeamTotalStrength - $homeTeamTotalStrength));
-        }
-
-        return [
-            'home_team_score' => $homeTeamScore,
-            'away_team_score' => $awayTeamScore
-        ];
-    }
-
-    public function calculateHomeTeamStrength(Team $homeTeam)
-    {
-        $strength = [
-            'team' => $homeTeam->team_strength,
-            'location' => self::HOME_CONSTANT * $homeTeam->home_strength,
-            'random' => random_int(0, self::RANDOM_STRENGTH_CONSTANT)
-        ];
-
-        return array_sum($strength);
-    }
-
-    public function calculateAwayTeamStrength(Team $awayTeam)
-    {
-        $strength = [
-            'team' => $awayTeam->team_strength,
-            'location' => self::AWAY_CONSTANT * $awayTeam->away_strength,
-            'random' => random_int(0, self::RANDOM_STRENGTH_CONSTANT)
-        ];
-
-        return array_sum($strength);
     }
 
     public function updateHomeTeamScoreboard(Fixture $fixture, array $scores)
