@@ -49,4 +49,14 @@ class FixtureRepository extends BaseRepository implements FixtureInterface
             ->get()
             ->groupBy('week');
     }
+
+    public function getPlayedFixturesWithTeams(int $league_id)
+    {
+        return $this->toQuery()
+            ->where(['league_id' => $league_id, 'is_played' => true])
+            ->orderBy('week')
+            ->with('homeTeam', 'awayTeam')
+            ->get()
+            ->groupBy('week');
+    }
 }

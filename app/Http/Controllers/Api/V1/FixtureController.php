@@ -46,4 +46,11 @@ class FixtureController extends Controller
 
         return $fixtures;
     }
+
+    public function listPlayedFixtures(League $league, FixtureInterface $fixtureRepository)
+    {
+        $fixtures = $fixtureRepository->getPlayedFixturesWithTeams($league->id);
+
+        return $fixtures;
+    }
 }
