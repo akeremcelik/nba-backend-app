@@ -23,6 +23,7 @@ class ScoreboardResource extends JsonResource
             'lost' => $this->lost,
             'scores_out' => $this->scores_out,
             'scores_in' => $this->scores_in,
+            'average' => $this->average,
             'league' => LeagueResource::make($this->whenLoaded('league')),
             'team' => TeamResource::make($this->whenLoaded('team')),
         ];

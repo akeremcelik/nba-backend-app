@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\FixtureResource;
 use App\Http\Resources\Api\V1\LeagueResource;
+use App\Http\Resources\Api\V1\WeekFixtureResource;
 use App\Models\League;
 use App\Services\FixtureService;
 use App\Services\LeagueService;
@@ -32,6 +33,7 @@ class FixtureController extends Controller
     {
         $fixtures = $this->fixtureService->list($league->id);
 
-        return FixtureResource::collection($fixtures);
+        return $fixtures;
+        // return FixtureResource::collection($fixtures);
     }
 }

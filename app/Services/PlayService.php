@@ -50,7 +50,7 @@ class PlayService
         $atWeek = $league->at_week;
         $finalWeek = $league->final_week;
 
-        for ($i=$atWeek+1; $i<=$finalWeek; $i++) {
+        for ($i = $atWeek + 1; $i <= $finalWeek; $i++) {
             $this->playWeek($league, $i);
         }
     }
@@ -81,7 +81,8 @@ class PlayService
         $data = [
             'played' => $scoreboard->played + 1,
             'scores_out' => $scoreboard->scores_out + $scores['home_team_score'],
-            'scores_in' => $scoreboard->scores_in + $scores['away_team_score']
+            'scores_in' => $scoreboard->scores_in + $scores['away_team_score'],
+            'average' => $scoreboard->average + ($scores['home_team_score'] - $scores['away_team_score']),
         ];
 
         if ($scores['home_team_score'] > $scores['away_team_score']) {
@@ -100,7 +101,8 @@ class PlayService
         $data = [
             'played' => $scoreboard->played + 1,
             'scores_out' => $scoreboard->scores_out + $scores['away_team_score'],
-            'scores_in' => $scoreboard->scores_in + $scores['home_team_score']
+            'scores_in' => $scoreboard->scores_in + $scores['home_team_score'],
+            'average' => $scoreboard->average + ($scores['away_team_score'] - $scores['home_team_score']),
         ];
 
         if ($scores['away_team_score'] > $scores['home_team_score']) {

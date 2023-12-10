@@ -21,7 +21,11 @@ class FixtureRepository extends BaseRepository implements FixtureInterface
 
     public function getFixturesWithRelationsByLeague(int $league_id)
     {
-        return $this->allWithWhere(['homeTeam', 'awayTeam'], ['league_id' => $league_id]);
+        return $this->allWithWhere(['homeTeam', 'awayTeam'], ['league_id' => $league_id])
+            ->groupBy('week')
+            ->sortBy(function ($object, $key) {
+                return $key;
+            });
     }
 
     public function getFixturesByLeagueAndWeek(int $league_id, int $week)

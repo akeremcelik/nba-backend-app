@@ -28,4 +28,9 @@ class ScoreboardRepository extends BaseRepository implements ScoreboardInterface
     {
         return $this->update($id, $data);
     }
+
+    public function listScoreboardsByLeagueDescWonAndAverage(int $league_id)
+    {
+        return $this->allWithWhere([], ['league_id' => $league_id])->sortByDesc('won, average');
+    }
 }

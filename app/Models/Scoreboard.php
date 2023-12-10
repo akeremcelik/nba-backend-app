@@ -18,6 +18,7 @@ class Scoreboard extends Model
         'lost',
         'scores_out',
         'scores_in',
+        'average',
     ];
 
     public function league(): BelongsTo

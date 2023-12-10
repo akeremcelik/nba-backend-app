@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\ScoreboardResource;
 use App\Models\League;
 use App\Repositories\Contracts\LeagueInterface;
+use App\Repositories\Contracts\ScoreboardInterface;
 use Illuminate\Http\Request;
 
 class ScoreboardController extends Controller
 {
     public function __construct(
-        protected LeagueInterface $leagueRepository,
+        protected ScoreboardInterface $scoreboardRepository,
     )
     {
         //
@@ -19,7 +20,7 @@ class ScoreboardController extends Controller
 
     public function listScoreboard(League $league)
     {
-        $scoreboards = $this->leagueRepository->getScoreboards($league->id);
+        $scoreboards = $this->scoreboardRepository->listScoreboardsByLeagueDescWonAndAverage($league->id);
 
         return ScoreboardResource::collection($scoreboards);
     }
