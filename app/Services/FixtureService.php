@@ -31,7 +31,7 @@ class FixtureService
             $this->scoreboardRepository->createScoreboard($data);
         }
 
-        $fixtures = $this->matchService->matchTeams($teams);
+        $fixtures = $this->matchService->matchTeams($teams->toArray());
         foreach ($fixtures as $fixture) {
             $data = [
                 'league_id' => $league_id,
