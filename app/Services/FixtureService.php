@@ -41,9 +41,4 @@ class FixtureService
             $this->fixtureRepository->createFixture($data);
         }
     }
-
-    public function list(int $league_id)
-    {
-        return $this->fixtureRepository->getGroupedFixturesWithRelationsByLeague($league_id);
-    }
 }
