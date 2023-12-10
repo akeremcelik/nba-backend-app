@@ -13,9 +13,9 @@ class PlayService
     public function __construct(
         protected LeagueInterface     $leagueRepository,
         protected FixtureInterface    $fixtureRepository,
-        protected ScoreboardInterface $scoreboardRepository,
         protected StrengthService     $strengthCalculationService,
         protected ScoreService        $scoreCalculationService,
+        protected ScoreboardService   $scoreboardService,
     )
     {
         //
@@ -69,47 +69,7 @@ class PlayService
 
         $this->fixtureRepository->updateFixture($fixture->id, $data);
 
-        $this->updateHomeTeamScoreboard($fixture, $scores);
-        $this->updateAwayTeamScoreboard($fixture, $scores);
-    }
-
-    public function updateHomeTeamScoreboard(Fixture $fixture, array $scores): void
-    {
-        $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($fixture->league_id, $fixture->home_team_id);
-
-        $data = [
-            'played' => $scoreboard->played + 1,
-            'scores_out' => $scoreboard->scores_out + $scores['home_team_score'],
-            'scores_in' => $scoreboard->scores_in + $scores['away_team_score'],
-            'average' => $scoreboard->average + ($scores['home_team_score'] - $scores['away_team_score']),
-        ];
-
-        if ($scores['home_team_score'] > $scores['away_team_score']) {
-            $data['won'] = $scoreboard->won + 1;
-        } else {
-            $data['lost'] = $scoreboard->lost + 1;
-        }
-
-        $this->scoreboardRepository->updateScoreboard($scoreboard->id, $data);
-    }
-
-    public function updateAwayTeamScoreboard(Fixture $fixture, array $scores): void
-    {
-        $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($fixture->league_id, $fixture->away_team_id);
-
-        $data = [
-            'played' => $scoreboard->played + 1,
-            'scores_out' => $scoreboard->scores_out + $scores['away_team_score'],
-            'scores_in' => $scoreboard->scores_in + $scores['home_team_score'],
-            'average' => $scoreboard->average + ($scores['away_team_score'] - $scores['home_team_score']),
-        ];
-
-        if ($scores['away_team_score'] > $scores['home_team_score']) {
-            $data['won'] = $scoreboard->won + 1;
-        } else {
-            $data['lost'] = $scoreboard->lost + 1;
-        }
-
-        $this->scoreboardRepository->updateScoreboard($scoreboard->id, $data);
+        $this->scoreboardService->updateHomeTeamScoreboard($fixture->league_id, $fixture->home_team_id, $scores);
+        $this->scoreboardService->updateAwayTeamScoreboard($fixture->league_id, $fixture->away_team_id, $scores);
     }
 }
