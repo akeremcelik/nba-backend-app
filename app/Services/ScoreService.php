@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class ScoreCalculationService
+class ScoreService
 {
     public function determineTeamScores(int $homeTeamTotalStrength, int $awayTeamTotalStrength): array
     {

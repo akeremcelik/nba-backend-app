@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Fixture;
 use App\Models\League;
-use App\Models\Team;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
@@ -12,11 +11,11 @@ use App\Repositories\Contracts\ScoreboardInterface;
 class PlayService
 {
     public function __construct(
-        protected LeagueInterface            $leagueRepository,
-        protected FixtureInterface           $fixtureRepository,
-        protected ScoreboardInterface        $scoreboardRepository,
-        protected StrengthCalculationService $strengthCalculationService,
-        protected ScoreCalculationService    $scoreCalculationService,
+        protected LeagueInterface     $leagueRepository,
+        protected FixtureInterface    $fixtureRepository,
+        protected ScoreboardInterface $scoreboardRepository,
+        protected StrengthService     $strengthCalculationService,
+        protected ScoreService        $scoreCalculationService,
     )
     {
         //

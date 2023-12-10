@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Team;
 
-class StrengthCalculationService
+class StrengthService
 {
     const HOME_CONSTANT = 1.5;
     const AWAY_CONSTANT = 1.0;

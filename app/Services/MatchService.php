@@ -4,7 +4,7 @@ namespace App\Services;
 
 class MatchService
 {
-    public function matchTeams($teams)
+    public function matchTeams(array $teams): array
     {
         $numTeams = count($teams);
 
