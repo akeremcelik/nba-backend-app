@@ -14,8 +14,13 @@ class PlayController extends Controller
         //
     }
 
-    public function playNextWeek(int $league_id)
+    public function playNextWeek(League $league)
     {
-        $this->playService->playWeek($league_id);
+        try {
+            $nextWeek = $league->at_week+1;
+            $this->playService->playWeek($league, $nextWeek);
+        } catch (\Exception $exception) {
+            echo $exception;
+        }
     }
 }

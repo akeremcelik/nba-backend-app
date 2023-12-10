@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Fixture;
+use App\Models\League;
 use App\Models\Team;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
@@ -11,8 +12,8 @@ use App\Repositories\Contracts\ScoreboardInterface;
 class PlayService
 {
     public function __construct(
-        protected LeagueInterface $leagueRepository,
-        protected FixtureInterface $fixtureRepository,
+        protected LeagueInterface     $leagueRepository,
+        protected FixtureInterface    $fixtureRepository,
         protected ScoreboardInterface $scoreboardRepository,
     )
     {
@@ -23,23 +24,27 @@ class PlayService
     const AWAY_CONSTANT = 1.0;
     const RANDOM_STRENGTH_CONSTANT = 50;
 
-    public function playWeek(int $league_id)
+    public function playWeek(League $league, int $week)
     {
-        $league = $this->leagueRepository->findOrFailLeague($league_id);
-
         $atWeek = $league->at_week;
         $finalWeek = $league->final_week;
 
-        if ($atWeek < $finalWeek) {
-            $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league_id, $atWeek+1);
-            foreach ($fixtures as $fixture) {
-                $this->playFixture($fixture);
-            }
-
-            $this->leagueRepository->updateLeague($league_id, [
-                'at_week' => $atWeek+1
-            ]);
+        if ($atWeek >= $finalWeek) {
+            throw new \Exception('The league has ended');
         }
+
+        if ($week <= $atWeek) {
+            throw new \Exception('The week already has been played');
+        }
+
+        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league->id, $week);
+        foreach ($fixtures as $fixture) {
+            $this->playFixture($fixture);
+        }
+
+        $this->leagueRepository->updateLeague($league->id, [
+            'at_week' => $week
+        ]);
     }
 
     public function playFixture(Fixture $fixture)
@@ -63,17 +68,19 @@ class PlayService
         $homeTeamTotalStrength = $this->calculateHomeTeamStrength($homeTeam);
         $awayTeamTotalStrength = $this->calculateAwayTeamStrength($awayTeam);
 
+        if ($homeTeamTotalStrength === $awayTeamTotalStrength) {
+            // avoid draw
+            random_int(0, 1) === 0 ? $homeTeamTotalStrength+=1 : $awayTeamTotalStrength+=1;
+        }
+
         $randomScore = random_int(80, 100);
         $homeTeamScore = $randomScore;
         $awayTeamScore = $randomScore;
 
         if ($homeTeamTotalStrength > $awayTeamTotalStrength) {
-            $homeTeamScore = $awayTeamScore + random_int(0, ($homeTeamTotalStrength-$awayTeamTotalStrength));
+            $homeTeamScore = $awayTeamScore + random_int(1, ($homeTeamTotalStrength - $awayTeamTotalStrength));
         } elseif ($homeTeamTotalStrength < $awayTeamTotalStrength) {
-            $awayTeamScore = $homeTeamScore + random_int(0, ($awayTeamTotalStrength-$homeTeamTotalStrength));
-        } else {
-            // avoid draw
-            random_int(0, 1) === 0 ? $homeTeamScore += 1 : $awayTeamScore += 1;
+            $awayTeamScore = $homeTeamScore + random_int(1, ($awayTeamTotalStrength - $homeTeamTotalStrength));
         }
 
         return [
@@ -115,9 +122,9 @@ class PlayService
         ];
 
         if ($scores['home_team_score'] > $scores['away_team_score']) {
-            $data['won'] = $scoreboard->won+1;
+            $data['won'] = $scoreboard->won + 1;
         } else {
-            $data['lost'] = $scoreboard->lost+1;
+            $data['lost'] = $scoreboard->lost + 1;
         }
 
         $this->scoreboardRepository->updateScoreboard($scoreboard->id, $data);
@@ -134,9 +141,9 @@ class PlayService
         ];
 
         if ($scores['away_team_score'] > $scores['home_team_score']) {
-            $data['won'] = $scoreboard->won+1;
+            $data['won'] = $scoreboard->won + 1;
         } else {
-            $data['lost'] = $scoreboard->lost+1;
+            $data['lost'] = $scoreboard->lost + 1;
         }
 
         $this->scoreboardRepository->updateScoreboard($scoreboard->id, $data);

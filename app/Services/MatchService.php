@@ -28,6 +28,12 @@ class MatchService
                             'home_team_id' => $team1->id,
                             'away_team_id' => $team2->id,
                         ];
+
+                        $matches[] = [
+                            'week' => $week+$weeks,
+                            'home_team_id' => $team2->id,
+                            'away_team_id' => $team1->id,
+                        ];
                     }
                 }
             }

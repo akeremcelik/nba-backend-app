@@ -21,7 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::get('teams', [TeamController::class, 'getTeams']);
 
     Route::post('generate-fixtures', [FixtureController::class, 'generateFixtures']);
-    Route::prefix('leagues/{league_id}')->group(function () {
+    Route::prefix('leagues/{league}')->group(function () {
         Route::get('list-fixtures', [FixtureController::class, 'listFixtures']);
         Route::post('play-next-week', [PlayController::class, 'playNextWeek']);
     });
