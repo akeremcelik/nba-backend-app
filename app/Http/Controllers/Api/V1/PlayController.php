@@ -27,7 +27,7 @@ class PlayController extends Controller
     public function playAllWeeks(League $league)
     {
         try {
-
+            $this->playService->playAllWeeks($league);
         } catch (\Exception $exception) {
             echo $exception;
         }

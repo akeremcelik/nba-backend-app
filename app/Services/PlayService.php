@@ -45,6 +45,16 @@ class PlayService
         ]);
     }
 
+    public function playAllWeeks(League $league)
+    {
+        $atWeek = $league->at_week;
+        $finalWeek = $league->final_week;
+
+        for ($i=$atWeek+1; $i<=$finalWeek; $i++) {
+            $this->playWeek($league, $i);
+        }
+    }
+
     public function playFixture(Fixture $fixture): void
     {
         $homeTeamTotalStrength = $this->strengthCalculationService->calculateHomeTeamStrength($fixture->homeTeam);
