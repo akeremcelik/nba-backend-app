@@ -22,7 +22,7 @@ class PlayService
         //
     }
 
-    public function playWeek(League $league, int $week)
+    public function playWeek(League $league, int $week): void
     {
         $atWeek = $league->at_week;
         $finalWeek = $league->final_week;
@@ -45,7 +45,7 @@ class PlayService
         ]);
     }
 
-    public function playFixture(Fixture $fixture)
+    public function playFixture(Fixture $fixture): void
     {
         $homeTeamTotalStrength = $this->strengthCalculationService->calculateHomeTeamStrength($fixture->homeTeam);
         $awayTeamTotalStrength = $this->strengthCalculationService->calculateAwayTeamStrength($fixture->awayTeam);
@@ -64,7 +64,7 @@ class PlayService
         $this->updateAwayTeamScoreboard($fixture, $scores);
     }
 
-    public function updateHomeTeamScoreboard(Fixture $fixture, array $scores)
+    public function updateHomeTeamScoreboard(Fixture $fixture, array $scores): void
     {
         $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($fixture->league_id, $fixture->home_team_id);
 
@@ -83,7 +83,7 @@ class PlayService
         $this->scoreboardRepository->updateScoreboard($scoreboard->id, $data);
     }
 
-    public function updateAwayTeamScoreboard(Fixture $fixture, array $scores)
+    public function updateAwayTeamScoreboard(Fixture $fixture, array $scores): void
     {
         $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($fixture->league_id, $fixture->away_team_id);
 

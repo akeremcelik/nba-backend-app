@@ -4,7 +4,7 @@ namespace App\Services;
 
 class ScoreCalculationService
 {
-    public function determineTeamScores($homeTeamTotalStrength, $awayTeamTotalStrength)
+    public function determineTeamScores(int $homeTeamTotalStrength, int $awayTeamTotalStrength): array
     {
         if ($homeTeamTotalStrength === $awayTeamTotalStrength) {
             // avoid draw

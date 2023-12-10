@@ -10,7 +10,7 @@ class StrengthCalculationService
     const AWAY_CONSTANT = 1.0;
     const RANDOM_STRENGTH_CONSTANT = 50;
 
-    public function calculateHomeTeamStrength(Team $homeTeam)
+    public function calculateHomeTeamStrength(Team $homeTeam): float|int
     {
         $strength = [
             'team' => $homeTeam->team_strength,
@@ -21,7 +21,7 @@ class StrengthCalculationService
         return array_sum($strength);
     }
 
-    public function calculateAwayTeamStrength(Team $awayTeam)
+    public function calculateAwayTeamStrength(Team $awayTeam): float|int
     {
         $strength = [
             'team' => $awayTeam->team_strength,

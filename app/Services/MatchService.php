@@ -4,7 +4,7 @@ namespace App\Services;
 
 class MatchService
 {
-    public function matchTeams($teams)
+    public function matchTeams($teams): array
     {
         $weeks = count($teams) - 1;
         $matches = [];
@@ -42,7 +42,7 @@ class MatchService
         return $matches;
     }
 
-    private function matchedInPreviousWeeks($matches, $id1, $id2)
+    private function matchedInPreviousWeeks($matches, $id1, $id2): bool
     {
         $filteredArray = array_filter($matches, function ($match) use ($id1, $id2) {
             return ($match['home_team_id'] === $id1 && $match['away_team_id'] === $id2) ||

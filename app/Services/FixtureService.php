@@ -19,7 +19,7 @@ class FixtureService
         //
     }
 
-    public function generate(int $league_id)
+    public function generate(int $league_id): void
     {
         $teams = App::make(TeamInterface::class)->getTeams();
         foreach ($teams as $team) {
