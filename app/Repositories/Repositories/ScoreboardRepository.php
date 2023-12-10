@@ -35,6 +35,7 @@ class ScoreboardRepository extends BaseRepository implements ScoreboardInterface
     {
         return $this->toQuery()
             ->where('league_id', $league_id)
+            ->with('team')
             ->get()
             ->sortBy([
                 ['won', 'desc'],

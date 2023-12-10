@@ -22,6 +22,10 @@ class PlayController extends Controller
         } catch (\Exception $exception) {
             echo $exception;
         }
+
+        return response()->json([
+            'status' => true
+        ]);
     }
 
     public function playAllWeeks(League $league)
@@ -31,5 +35,9 @@ class PlayController extends Controller
         } catch (\Exception $exception) {
             echo $exception;
         }
+
+        return response()->json([
+            'status' => true
+        ]);
     }
 }

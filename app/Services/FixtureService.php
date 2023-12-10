@@ -22,6 +22,8 @@ class FixtureService
     public function generate(int $league_id): void
     {
         $teams = App::make(TeamInterface::class)->getTeams();
+        $teams = $teams->shuffle();
+
         foreach ($teams as $team) {
             $data = [
                 'league_id' => $league_id,

@@ -36,4 +36,14 @@ class FixtureController extends Controller
         return $fixtures;
         // return FixtureResource::collection($fixtures);
     }
+
+    public function listWeekFixtures(League $league, FixtureInterface $fixtureRepository)
+    {
+        $atWeek = $league->at_week;
+        $week = $atWeek+1;
+
+        $fixtures = $fixtureRepository->getGroupedFixturesWithRelationsByLeagueAndWeek($league->id, $week);
+
+        return $fixtures;
+    }
 }
