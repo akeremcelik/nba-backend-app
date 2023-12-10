@@ -23,6 +23,12 @@ class MatchService
                     'home_team_id' => $team1['id'],
                     'away_team_id' => $team2['id']
                 ];
+
+                $matches[] = [
+                    'week' => $week+$totalWeeks,
+                    'home_team_id' => $team2['id'],
+                    'away_team_id' => $team1['id']
+                ];
             }
 
             $teams = array_merge(array($teams[0]), array_slice($teams, 2, $numTeams - 2), array($teams[1]));
