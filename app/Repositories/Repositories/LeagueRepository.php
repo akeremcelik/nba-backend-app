@@ -28,4 +28,11 @@ class LeagueRepository extends BaseRepository implements LeagueInterface
     {
         return $this->update($league_id, $data);
     }
+
+    public function getScoreboards(int $league_id)
+    {
+        $league = $this->findOrFailLeague($league_id);
+
+        return $league->scoreboards;
+    }
 }

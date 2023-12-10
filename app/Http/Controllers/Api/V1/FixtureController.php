@@ -28,9 +28,9 @@ class FixtureController extends Controller
         return LeagueResource::make($league);
     }
 
-    public function listFixtures(int $league_id)
+    public function listFixtures(League $league)
     {
-        $fixtures = $this->fixtureService->list($league_id);
+        $fixtures = $this->fixtureService->list($league->id);
 
         return FixtureResource::collection($fixtures);
     }

@@ -20,6 +20,11 @@ class Scoreboard extends Model
         'scores_in',
     ];
 
+    public function league(): BelongsTo
+    {
+        return $this->belongsTo(League::class);
+    }
+
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);

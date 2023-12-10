@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\TeamController;
 use App\Http\Controllers\Api\V1\FixtureController;
 use App\Http\Controllers\Api\V1\PlayController;
+use App\Http\Controllers\Api\V1\ScoreboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,6 @@ Route::prefix('v1')->group(function () {
         Route::get('list-fixtures', [FixtureController::class, 'listFixtures']);
         Route::post('play-next-week', [PlayController::class, 'playNextWeek']);
         Route::post('play-all-weeks', [PlayController::class, 'playAllWeeks']);
+        Route::get('list-scoreboard', [ScoreboardController::class, 'listScoreboard']);
     });
 });
