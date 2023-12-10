@@ -51,7 +51,7 @@ class ChampionshipPredictionService
             if (($scoreboard->won + $remainingWeeks) < $maxWin) {
                 $team->prediction = 0;
             } else {
-                $prediction = ($scoreboard->won * self::WIN_CONSTANT) + ($scoreboard->average * $remainingWeeks);
+                $prediction = ($scoreboard->won * self::WIN_CONSTANT) + $scoreboard->average;
 
                 if ($prediction < 0) {
                     $prediction = 0;

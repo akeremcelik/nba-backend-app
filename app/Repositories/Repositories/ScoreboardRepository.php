@@ -39,7 +39,9 @@ class ScoreboardRepository extends BaseRepository implements ScoreboardInterface
             ->get()
             ->sortBy([
                 ['won', 'desc'],
-                ['average', 'desc']
+                ['average', 'desc'],
+                ['scores_out', 'desc'],
+                ['scores_in', 'asc']
             ]);
     }
 }
