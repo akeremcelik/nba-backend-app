@@ -18,14 +18,9 @@ class BaseRepository
         return $this->model->query();
     }
 
-    public function all(array $relations = [])
+    public function get()
     {
-        return $this->toQuery()->with($relations)->get();
-    }
-
-    public function allWithWhere(array $relations = [], array $where = [])
-    {
-        return $this->toQuery()->where($where)->with($relations)->get();
+        return $this->toQuery()->get();
     }
 
     public function firstOrCreate(array $data1, array $data2 = [])
@@ -41,11 +36,6 @@ class BaseRepository
     public function findOrFail(int $id)
     {
         return $this->toQuery()->findOrFail($id);
-    }
-
-    public function firstOrFail(array $where)
-    {
-        return $this->toQuery()->where($where)->firstOrFail();
     }
 
     public function update(int $id, array $data)

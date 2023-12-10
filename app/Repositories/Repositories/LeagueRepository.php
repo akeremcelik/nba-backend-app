@@ -24,8 +24,8 @@ class LeagueRepository extends BaseRepository implements LeagueInterface
         return $this->findOrFail($id);
     }
 
-    public function updateLeague(int $league_id, array $data)
+    public function updateLeague(int $id, array $data)
     {
-        return $this->update($league_id, $data);
+        return $this->update($id, $data);
     }
 }

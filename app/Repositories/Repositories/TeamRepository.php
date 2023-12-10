@@ -20,6 +20,6 @@ class TeamRepository extends BaseRepository implements TeamInterface
 
     public function getTeams()
     {
-        return $this->all();
+        return $this->get();
     }
 }

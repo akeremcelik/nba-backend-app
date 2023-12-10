@@ -19,18 +19,26 @@ class ScoreboardRepository extends BaseRepository implements ScoreboardInterface
         return $this->create($data);
     }
 
-    public function findScoreboardByLeagueAndTeam(int $league_id, int $team_id)
-    {
-        return $this->firstOrFail(['league_id' => $league_id, 'team_id' => $team_id]);
-    }
-
     public function updateScoreboard(int $id, array $data)
     {
         return $this->update($id, $data);
     }
 
+    public function findScoreboardByLeagueAndTeam(int $league_id, int $team_id)
+    {
+        return $this->toQuery()
+            ->where(['league_id' => $league_id, 'team_id' => $team_id])
+            ->firstOrFail();
+    }
+
     public function listScoreboardsByLeagueDescWonAndAverage(int $league_id)
     {
-        return $this->allWithWhere([], ['league_id' => $league_id])->sortByDesc('won, average');
+        return $this->toQuery()
+            ->where('league_id', $league_id)
+            ->get()
+            ->sortBy([
+                ['won', 'desc'],
+                ['average', 'desc']
+            ]);
     }
 }
