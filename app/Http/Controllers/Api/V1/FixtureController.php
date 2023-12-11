@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\FixtureResource;
 use App\Http\Resources\Api\V1\LeagueResource;
 use App\Models\League;
-use App\Repositories\Contracts\FixtureInterface;
+use App\Repositories\Contracts\LeagueInterface;
 use App\Services\Contracts\FixtureServiceInterface;
 use App\Services\Contracts\LeagueServiceInterface;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ class FixtureController extends Controller
 {
     public function __construct(
         protected FixtureServiceInterface $fixtureService,
-        protected FixtureInterface $fixtureRepository
+        protected LeagueInterface $leagueRepository
     )
     {
         //
@@ -31,7 +31,7 @@ class FixtureController extends Controller
 
     public function listFixtures(League $league)
     {
-        $fixtures = $this->fixtureRepository->getFixturesByLeague($league->id);
+        $fixtures = $this->leagueRepository->getFixtures($league->id);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');
@@ -39,7 +39,7 @@ class FixtureController extends Controller
 
     public function listWeekFixtures(League $league)
     {
-        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league->id, $league->at_week + 1);
+        $fixtures = $this->leagueRepository->getWeeklyFixtures($league->id, $league->at_week + 1);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');
@@ -47,7 +47,7 @@ class FixtureController extends Controller
 
     public function listPlayedFixtures(League $league)
     {
-        $fixtures = $this->fixtureRepository->getPlayedFixturesByLeague($league->id);
+        $fixtures = $this->leagueRepository->getPlayedFixtures($league->id);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');

@@ -40,7 +40,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ScoreboardServiceInterface::class, function ($app) {
             $scoreboardRepository = $app->make(ScoreboardInterface::class);
-            return new ScoreboardService($scoreboardRepository);
+            $leagueRepository = $app->make(LeagueInterface::class);
+
+            return new ScoreboardService($scoreboardRepository, $leagueRepository);
         });
 
         $this->app->singleton(LeagueServiceInterface::class, function ($app) {

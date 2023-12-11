@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 
@@ -9,6 +10,7 @@ class ScoreboardService implements ScoreboardServiceInterface
 {
     public function __construct(
         protected ScoreboardInterface $scoreboardRepository,
+        protected LeagueInterface $leagueRepository
     )
     {
         //
@@ -16,7 +18,7 @@ class ScoreboardService implements ScoreboardServiceInterface
 
     public function updateHomeTeamScoreboard(int $league_id, int $team_id, array $scores): void
     {
-        $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($league_id, $team_id);
+        $scoreboard = $this->leagueRepository->getTeamScoreboard($league_id, $team_id);
 
         $data = [
             'played' => $scoreboard->played + 1,
@@ -36,7 +38,7 @@ class ScoreboardService implements ScoreboardServiceInterface
 
     public function updateAwayTeamScoreboard(int $league_id, int $team_id, array $scores): void
     {
-        $scoreboard = $this->scoreboardRepository->findScoreboardByLeagueAndTeam($league_id, $team_id);
+        $scoreboard = $this->leagueRepository->getTeamScoreboard($league_id, $team_id);
 
         $data = [
             'played' => $scoreboard->played + 1,

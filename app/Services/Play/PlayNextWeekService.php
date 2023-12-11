@@ -4,10 +4,10 @@ namespace App\Services\Play;
 
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
-use App\Services\BaseBasePlayService;
+use App\Services\BasePlayService;
 use App\Services\Contracts\PlayServiceInterface;
 
-class PlayNextWeekService extends BaseBasePlayService implements PlayServiceInterface
+class PlayNextWeekService extends BasePlayService implements PlayServiceInterface
 {
     public function __construct(League $league, FixtureInterface $fixtureRepository)
     {
