@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use App\Models\Team;
+use App\Services\Contracts\StrengthServiceInterface;
 
-class StrengthService
+class StrengthService implements StrengthServiceInterface
 {
     const HOME_CONSTANT = 1.5;
     const AWAY_CONSTANT = 1.0;

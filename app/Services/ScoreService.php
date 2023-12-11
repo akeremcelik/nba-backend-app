@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-class ScoreService
+use App\Services\Contracts\ScoreServiceInterface;
+
+class ScoreService implements ScoreServiceInterface
 {
     public function determineTeamScores(int $homeTeamTotalStrength, int $awayTeamTotalStrength): array
     {

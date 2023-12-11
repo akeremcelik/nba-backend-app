@@ -7,14 +7,14 @@ use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\ScoreServiceInterface;
+use App\Services\Contracts\StrengthServiceInterface;
 
 class PlayService
 {
     public function __construct(
         protected LeagueInterface     $leagueRepository,
         protected FixtureInterface    $fixtureRepository,
-        protected StrengthService     $strengthCalculationService,
-        protected ScoreService        $scoreCalculationService,
         protected ScoreboardService   $scoreboardService,
     )
     {
@@ -56,10 +56,11 @@ class PlayService
 
     public function playFixture(Fixture $fixture): void
     {
-        $homeTeamTotalStrength = $this->strengthCalculationService->calculateHomeTeamStrength($fixture->homeTeam);
-        $awayTeamTotalStrength = $this->strengthCalculationService->calculateAwayTeamStrength($fixture->awayTeam);
+        $strengthService = app(StrengthServiceInterface::class);
+        $homeTeamTotalStrength = $strengthService->calculateHomeTeamStrength($fixture->homeTeam);
+        $awayTeamTotalStrength = $strengthService->calculateAwayTeamStrength($fixture->awayTeam);
 
-        $scores = $this->scoreCalculationService->determineTeamScores($homeTeamTotalStrength, $awayTeamTotalStrength);
+        $scores = app(ScoreServiceInterface::class)->determineTeamScores($homeTeamTotalStrength, $awayTeamTotalStrength);
 
         $data = [
             'is_played' => true,
