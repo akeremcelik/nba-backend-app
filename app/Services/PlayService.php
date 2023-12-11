@@ -6,7 +6,7 @@ use App\Models\Fixture;
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
-use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
 
@@ -15,7 +15,6 @@ class PlayService
     public function __construct(
         protected LeagueInterface     $leagueRepository,
         protected FixtureInterface    $fixtureRepository,
-        protected ScoreboardService   $scoreboardService,
     )
     {
         //
@@ -70,7 +69,9 @@ class PlayService
 
         $this->fixtureRepository->updateFixture($fixture->id, $data);
 
-        $this->scoreboardService->updateHomeTeamScoreboard($fixture->league_id, $fixture->home_team_id, $scores);
-        $this->scoreboardService->updateAwayTeamScoreboard($fixture->league_id, $fixture->away_team_id, $scores);
+        $scoreboardService = app(ScoreboardServiceInterface::class);
+
+        $scoreboardService->updateHomeTeamScoreboard($fixture->league_id, $fixture->home_team_id, $scores);
+        $scoreboardService->updateAwayTeamScoreboard($fixture->league_id, $fixture->away_team_id, $scores);
     }
 }

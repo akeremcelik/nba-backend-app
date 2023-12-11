@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
+use App\Services\ScoreboardService;
 use App\Services\ScoreService;
 use App\Services\StrengthService;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(StrengthServiceInterface::class, StrengthService::class);
         $this->app->singleton(ScoreServiceInterface::class, ScoreService::class);
+
+        $this->app->singleton(ScoreboardServiceInterface::class, function ($app) {
+            $scoreboardRepository = $app->make(ScoreboardInterface::class);
+            return new ScoreboardService($scoreboardRepository);
+        });
     }
 
     /**

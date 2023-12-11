@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Fixture;
 use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\ScoreboardServiceInterface;
 
-class ScoreboardService
+class ScoreboardService implements ScoreboardServiceInterface
 {
     public function __construct(
         protected ScoreboardInterface $scoreboardRepository,
