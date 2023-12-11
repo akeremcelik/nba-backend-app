@@ -14,7 +14,7 @@ use App\Services\Contracts\StrengthServiceInterface;
 class BaseBasePlayService implements BasePlayServiceInterface
 {
     public function __construct(
-        protected League $league,
+        protected League           $league,
         protected FixtureInterface $fixtureRepository
     )
     {
@@ -23,17 +23,6 @@ class BaseBasePlayService implements BasePlayServiceInterface
 
     public function playWeek(int $week): void
     {
-        $atWeek = $this->league->at_week;
-        $finalWeek = $this->league->final_week;
-
-        if ($atWeek >= $finalWeek) {
-            throw new \Exception('The league has ended');
-        }
-
-        if ($week <= $atWeek) {
-            throw new \Exception('The week already has been played');
-        }
-
         $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($this->league->id, $week);
         foreach ($fixtures as $fixture) {
             $this->playFixture($fixture);
