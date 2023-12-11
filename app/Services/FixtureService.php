@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
-use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
 use App\Repositories\Contracts\TeamInterface;
+use App\Services\Contracts\MatchServiceInterface;
 use Illuminate\Support\Facades\App;
 
 class FixtureService
 {
     public function __construct(
-        protected MatchService     $matchService,
         protected FixtureInterface $fixtureRepository,
         protected ScoreboardInterface $scoreboardRepository,
     )
@@ -33,7 +32,7 @@ class FixtureService
             $this->scoreboardRepository->createScoreboard($data);
         }
 
-        $fixtures = $this->matchService->matchTeams($teams->toArray());
+        $fixtures = app(MatchServiceInterface::class)->matchTeams($teams->toArray());
         foreach ($fixtures as $fixture) {
             $data = [
                 'league_id' => $league_id,

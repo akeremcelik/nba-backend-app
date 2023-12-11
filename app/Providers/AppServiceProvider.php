@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\MatchServiceInterface;
 use App\Services\Contracts\PlayServiceInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
+use App\Services\MatchService;
 use App\Services\PlayService;
 use App\Services\ScoreboardService;
 use App\Services\ScoreService;
@@ -34,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
             $fixtureRepository = $app->make(FixtureInterface::class);
             return new PlayService($fixtureRepository);
         });
+
+        $this->app->singleton(MatchServiceInterface::class, MatchService::class);
     }
 
     /**

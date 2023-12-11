@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-class MatchService
+use App\Services\Contracts\MatchServiceInterface;
+
+class MatchService implements MatchServiceInterface
 {
     public function matchTeams(array $teams): array
     {
