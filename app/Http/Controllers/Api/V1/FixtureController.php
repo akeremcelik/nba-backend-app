@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
-    public function __construct(protected FixtureServiceInterface $fixtureService,)
+    public function __construct(
+        protected FixtureServiceInterface $fixtureService,
+        protected FixtureInterface $fixtureRepository
+    )
     {
         //
     }
@@ -26,25 +29,25 @@ class FixtureController extends Controller
         return LeagueResource::make($league);
     }
 
-    public function listFixtures(League $league, FixtureInterface $fixtureRepository)
+    public function listFixtures(League $league)
     {
-        $fixtures = $fixtureRepository->getFixturesByLeague($league->id);
+        $fixtures = $this->fixtureRepository->getFixturesByLeague($league->id);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');
     }
 
-    public function listWeekFixtures(League $league, FixtureInterface $fixtureRepository)
+    public function listWeekFixtures(League $league)
     {
-        $fixtures = $fixtureRepository->getFixturesByLeagueAndWeek($league->id, $league->at_week + 1);
+        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league->id, $league->at_week + 1);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');
     }
 
-    public function listPlayedFixtures(League $league, FixtureInterface $fixtureRepository)
+    public function listPlayedFixtures(League $league)
     {
-        $fixtures = $fixtureRepository->getPlayedFixturesByLeague($league->id);
+        $fixtures = $this->fixtureRepository->getPlayedFixturesByLeague($league->id);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');

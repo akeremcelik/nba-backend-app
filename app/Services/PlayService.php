@@ -43,7 +43,7 @@ class PlayService implements PlayServiceInterface
         ]);
     }
 
-    public function playAllWeeks(League $league)
+    public function playAllWeeks(League $league): void
     {
         $atWeek = $league->at_week;
         $finalWeek = $league->final_week;

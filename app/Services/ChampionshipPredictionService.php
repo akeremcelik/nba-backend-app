@@ -32,7 +32,7 @@ class ChampionshipPredictionService implements ChampionshipPredictionServiceInte
         return $teams;
     }
 
-    private function calculatePredictions($scoreboards, $remainingWeeks)
+    private function calculatePredictions($scoreboards, $remainingWeeks): array
     {
         $teams = [];
         $totalPrediction = 0;
