@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\TeamInterface;
+use App\Services\Contracts\LeagueServiceInterface;
 
-class LeagueService
+class LeagueService implements LeagueServiceInterface
 {
     public function __construct(
-        protected TeamInterface   $teamRepository,
         protected LeagueInterface $leagueRepository
     )
     {
@@ -17,7 +17,7 @@ class LeagueService
 
     public function create()
     {
-        $teams = $this->teamRepository->getTeams();
+        $teams = app(TeamInterface::class)->getTeams();
         $weeks = (count($teams)-1) * 2;
 
         $data = [

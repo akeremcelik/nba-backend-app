@@ -7,23 +7,22 @@ use App\Http\Resources\Api\V1\FixtureResource;
 use App\Http\Resources\Api\V1\LeagueResource;
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
+use App\Services\Contracts\LeagueServiceInterface;
 use App\Services\FixtureService;
-use App\Services\LeagueService;
 use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
     public function __construct(
         protected FixtureService $fixtureService,
-        protected LeagueService  $leagueService,
     )
     {
         //
     }
 
-    public function generateFixtures()
+    public function generateFixtures(LeagueServiceInterface $leagueService)
     {
-        $league = $this->leagueService->create();
+        $league = $leagueService->create();
         $this->fixtureService->generate($league->id);
 
         return LeagueResource::make($league);
@@ -40,7 +39,7 @@ class FixtureController extends Controller
     public function listWeekFixtures(League $league, FixtureInterface $fixtureRepository)
     {
         $atWeek = $league->at_week;
-        $week = $atWeek+1;
+        $week = $atWeek + 1;
 
         $fixtures = $fixtureRepository->getFixturesByLeagueAndWeek($league->id, $week);
 

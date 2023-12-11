@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\FixtureInterface;
+use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\LeagueServiceInterface;
 use App\Services\Contracts\MatchServiceInterface;
 use App\Services\Contracts\PlayServiceInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
+use App\Services\LeagueService;
 use App\Services\MatchService;
 use App\Services\PlayService;
 use App\Services\ScoreboardService;
@@ -38,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(MatchServiceInterface::class, MatchService::class);
+
+        $this->app->singleton(LeagueServiceInterface::class, function ($app) {
+            $leagueRepository = $app->make(LeagueInterface::class);
+            return new LeagueService($leagueRepository);
+        });
     }
 
     /**
