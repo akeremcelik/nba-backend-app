@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(StrengthServiceInterface::class, StrengthService::class);
         $this->app->singleton(ScoreServiceInterface::class, ScoreService::class);
+        $this->app->singleton(MatchServiceInterface::class, MatchService::class);
+        $this->app->singleton(ChampionshipPredictionServiceInterface::class, ChampionshipPredictionService::class);
 
         $this->app->singleton(ScoreboardServiceInterface::class, function ($app) {
             $scoreboardRepository = $app->make(ScoreboardInterface::class);
@@ -44,8 +46,6 @@ class AppServiceProvider extends ServiceProvider
             return new PlayService($fixtureRepository);
         });
 
-        $this->app->singleton(MatchServiceInterface::class, MatchService::class);
-
         $this->app->singleton(LeagueServiceInterface::class, function ($app) {
             $leagueRepository = $app->make(LeagueInterface::class);
             return new LeagueService($leagueRepository);
@@ -55,8 +55,6 @@ class AppServiceProvider extends ServiceProvider
             $fixtureRepository = $app->make(FixtureInterface::class);
             return new FixtureService($fixtureRepository);
         });
-
-        $this->app->singleton(ChampionshipPredictionServiceInterface::class, ChampionshipPredictionService::class);
     }
 
     /**
