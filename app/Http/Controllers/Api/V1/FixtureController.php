@@ -38,10 +38,7 @@ class FixtureController extends Controller
 
     public function listWeekFixtures(League $league, FixtureInterface $fixtureRepository)
     {
-        $atWeek = $league->at_week;
-        $week = $atWeek + 1;
-
-        $fixtures = $fixtureRepository->getFixturesByLeagueAndWeek($league->id, $week);
+        $fixtures = $fixtureRepository->getFixturesByLeagueAndWeek($league->id, $league->at_week + 1);
 
         return FixtureResource::collection($fixtures)
             ->groupBy('week');
