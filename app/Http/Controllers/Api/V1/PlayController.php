@@ -16,12 +16,7 @@ class PlayController extends Controller
 
     public function playNextWeek(League $league): \Illuminate\Http\JsonResponse
     {
-        try {
-            $nextWeek = $league->at_week+1;
-            $this->playService->playWeek($league, $nextWeek);
-        } catch (\Exception $exception) {
-            echo $exception;
-        }
+        $this->playService->play();
 
         return response()->json([
             'status' => true
@@ -30,11 +25,7 @@ class PlayController extends Controller
 
     public function playAllWeeks(League $league): \Illuminate\Http\JsonResponse
     {
-        try {
-            $this->playService->playAllWeeks($league);
-        } catch (\Exception $exception) {
-            echo $exception;
-        }
+        $this->playService->play();
 
         return response()->json([
             'status' => true

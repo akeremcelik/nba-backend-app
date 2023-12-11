@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Api\V1\PlayController;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
@@ -17,7 +18,8 @@ use App\Services\Contracts\StrengthServiceInterface;
 use App\Services\FixtureService;
 use App\Services\LeagueService;
 use App\Services\MatchService;
-use App\Services\PlayService;
+use App\Services\Play\PlayAllWeeksService;
+use App\Services\Play\PlayNextWeekService;
 use App\Services\ScoreboardService;
 use App\Services\ScoreService;
 use App\Services\StrengthService;
@@ -41,11 +43,6 @@ class AppServiceProvider extends ServiceProvider
             return new ScoreboardService($scoreboardRepository);
         });
 
-        $this->app->singleton(PlayServiceInterface::class, function ($app) {
-            $fixtureRepository = $app->make(FixtureInterface::class);
-            return new PlayService($fixtureRepository);
-        });
-
         $this->app->singleton(LeagueServiceInterface::class, function ($app) {
             $leagueRepository = $app->make(LeagueInterface::class);
             return new LeagueService($leagueRepository);
@@ -55,6 +52,19 @@ class AppServiceProvider extends ServiceProvider
             $fixtureRepository = $app->make(FixtureInterface::class);
             return new FixtureService($fixtureRepository);
         });
+
+        $this->app->when(PlayController::class)
+            ->needs(PlayServiceInterface::class)
+            ->give(function ($app) {
+                $league = $app->make(LeagueInterface::class)->findOrFail(request()->league);
+                $fixtureRepository = $app->make(FixtureInterface::class);
+
+                if(request()->route()->getActionMethod() === 'playNextWeek') {
+                    return new PlayNextWeekService($league, $fixtureRepository);
+                }
+
+                return new PlayAllWeeksService($league, $fixtureRepository);
+            });
     }
 
     /**

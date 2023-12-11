@@ -6,24 +6,25 @@ use App\Models\Fixture;
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
-use App\Services\Contracts\PlayServiceInterface;
+use App\Services\Contracts\BasePlayServiceInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
 
-class PlayService implements PlayServiceInterface
+class BaseBasePlayService implements BasePlayServiceInterface
 {
     public function __construct(
-        protected FixtureInterface $fixtureRepository,
+        protected League $league,
+        protected FixtureInterface $fixtureRepository
     )
     {
         //
     }
 
-    public function playWeek(League $league, int $week): void
+    public function playWeek(int $week): void
     {
-        $atWeek = $league->at_week;
-        $finalWeek = $league->final_week;
+        $atWeek = $this->league->at_week;
+        $finalWeek = $this->league->final_week;
 
         if ($atWeek >= $finalWeek) {
             throw new \Exception('The league has ended');
@@ -33,29 +34,20 @@ class PlayService implements PlayServiceInterface
             throw new \Exception('The week already has been played');
         }
 
-        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($league->id, $week);
+        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($this->league->id, $week);
         foreach ($fixtures as $fixture) {
             $this->playFixture($fixture);
         }
 
-        app(LeagueInterface::class)->updateLeague($league->id, [
+        app(LeagueInterface::class)->updateLeague($this->league->id, [
             'at_week' => $week
         ]);
-    }
-
-    public function playAllWeeks(League $league): void
-    {
-        $atWeek = $league->at_week;
-        $finalWeek = $league->final_week;
-
-        for ($i = $atWeek + 1; $i <= $finalWeek; $i++) {
-            $this->playWeek($league, $i);
-        }
     }
 
     public function playFixture(Fixture $fixture): void
     {
         $strengthService = app(StrengthServiceInterface::class);
+
         $homeTeamTotalStrength = $strengthService->calculateHomeTeamStrength($fixture->homeTeam);
         $awayTeamTotalStrength = $strengthService->calculateAwayTeamStrength($fixture->awayTeam);
 
