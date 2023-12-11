@@ -5,14 +5,14 @@ namespace App\Services;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
 use App\Repositories\Contracts\TeamInterface;
+use App\Services\Contracts\FixtureServiceInterface;
 use App\Services\Contracts\MatchServiceInterface;
 use Illuminate\Support\Facades\App;
 
-class FixtureService
+class FixtureService implements FixtureServiceInterface
 {
     public function __construct(
         protected FixtureInterface $fixtureRepository,
-        protected ScoreboardInterface $scoreboardRepository,
     )
     {
         //
@@ -29,7 +29,7 @@ class FixtureService
                 'team_id' => $team->id,
             ];
 
-            $this->scoreboardRepository->createScoreboard($data);
+            app(ScoreboardInterface::class)->createScoreboard($data);
         }
 
         $fixtures = app(MatchServiceInterface::class)->matchTeams($teams->toArray());

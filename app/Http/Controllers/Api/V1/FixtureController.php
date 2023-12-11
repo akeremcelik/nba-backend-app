@@ -7,14 +7,14 @@ use App\Http\Resources\Api\V1\FixtureResource;
 use App\Http\Resources\Api\V1\LeagueResource;
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
+use App\Services\Contracts\FixtureServiceInterface;
 use App\Services\Contracts\LeagueServiceInterface;
-use App\Services\FixtureService;
 use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
     public function __construct(
-        protected FixtureService $fixtureService,
+        protected FixtureServiceInterface $fixtureService,
     )
     {
         //
