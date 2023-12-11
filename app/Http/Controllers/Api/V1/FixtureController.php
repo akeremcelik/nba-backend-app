@@ -31,10 +31,10 @@ class FixtureController extends Controller
 
     public function listFixtures(League $league, FixtureInterface $fixtureRepository)
     {
-        $fixtures = $fixtureRepository->getGroupedFixturesWithRelationsByLeague($league->id);
+        $fixtures = $fixtureRepository->getFixturesByLeague($league->id);
 
-        return $fixtures;
-        // return FixtureResource::collection($fixtures);
+        return FixtureResource::collection($fixtures)
+            ->groupBy('week');
     }
 
     public function listWeekFixtures(League $league, FixtureInterface $fixtureRepository)
@@ -42,15 +42,17 @@ class FixtureController extends Controller
         $atWeek = $league->at_week;
         $week = $atWeek+1;
 
-        $fixtures = $fixtureRepository->getGroupedFixturesWithRelationsByLeagueAndWeek($league->id, $week);
+        $fixtures = $fixtureRepository->getFixturesByLeagueAndWeek($league->id, $week);
 
-        return $fixtures;
+        return FixtureResource::collection($fixtures)
+            ->groupBy('week');
     }
 
     public function listPlayedFixtures(League $league, FixtureInterface $fixtureRepository)
     {
-        $fixtures = $fixtureRepository->getPlayedFixturesWithTeams($league->id);
+        $fixtures = $fixtureRepository->getPlayedFixturesByLeague($league->id);
 
-        return $fixtures;
+        return FixtureResource::collection($fixtures)
+            ->groupBy('week');
     }
 }

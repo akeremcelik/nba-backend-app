@@ -24,39 +24,24 @@ class FixtureRepository extends BaseRepository implements FixtureInterface
         return $this->update($id, $data);
     }
 
-    public function getGroupedFixturesWithRelationsByLeague(int $league_id)
+    public function getFixturesByLeague(int $league_id)
     {
         return $this->toQuery()
             ->where('league_id', $league_id)
             ->orderBy('week')
             ->with('homeTeam', 'awayTeam')
-            ->get()
-            ->groupBy('week');
+            ->get();
     }
 
     public function getFixturesByLeagueAndWeek(int $league_id, int $week)
     {
-        return $this->toQuery()
-            ->where(['league_id' => $league_id, 'week' => $week])
-            ->get();
+        return $this->getFixturesByLeague($league_id)
+            ->where('week', $week);
     }
 
-    public function getGroupedFixturesWithRelationsByLeagueAndWeek(int $league_id, int $week)
+    public function getPlayedFixturesByLeague(int $league_id)
     {
-        return $this->toQuery()
-            ->where(['league_id' => $league_id, 'week' => $week])
-            ->with('homeTeam', 'awayTeam')
-            ->get()
-            ->groupBy('week');
-    }
-
-    public function getPlayedFixturesWithTeams(int $league_id)
-    {
-        return $this->toQuery()
-            ->where(['league_id' => $league_id, 'is_played' => true])
-            ->orderBy('week')
-            ->with('homeTeam', 'awayTeam')
-            ->get()
-            ->groupBy('week');
+        return $this->getFixturesByLeague($league_id)
+            ->where('is_played', true);
     }
 }
