@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\League;
-use App\Services\PlayService;
+use App\Services\Contracts\PlayServiceInterface;
 use Illuminate\Http\Request;
 
 class PlayController extends Controller
 {
-    public function __construct(protected PlayService $playService)
+    public function __construct(protected PlayServiceInterface $playService)
     {
         //
     }

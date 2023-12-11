@@ -6,15 +6,15 @@ use App\Models\Fixture;
 use App\Models\League;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
+use App\Services\Contracts\PlayServiceInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
 
-class PlayService
+class PlayService implements PlayServiceInterface
 {
     public function __construct(
-        protected LeagueInterface     $leagueRepository,
-        protected FixtureInterface    $fixtureRepository,
+        protected FixtureInterface $fixtureRepository,
     )
     {
         //
@@ -38,7 +38,7 @@ class PlayService
             $this->playFixture($fixture);
         }
 
-        $this->leagueRepository->updateLeague($league->id, [
+        app(LeagueInterface::class)->updateLeague($league->id, [
             'at_week' => $week
         ]);
     }
