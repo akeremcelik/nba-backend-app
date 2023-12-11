@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Repositories\Contracts\FixtureInterface;
 use App\Repositories\Contracts\LeagueInterface;
 use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\ChampionshipPredictionService;
+use App\Services\Contracts\ChampionshipPredictionServiceInterface;
 use App\Services\Contracts\FixtureServiceInterface;
 use App\Services\Contracts\LeagueServiceInterface;
 use App\Services\Contracts\MatchServiceInterface;
@@ -53,6 +55,8 @@ class AppServiceProvider extends ServiceProvider
             $fixtureRepository = $app->make(FixtureInterface::class);
             return new FixtureService($fixtureRepository);
         });
+
+        $this->app->singleton(ChampionshipPredictionServiceInterface::class, ChampionshipPredictionService::class);
     }
 
     /**

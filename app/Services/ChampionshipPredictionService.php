@@ -3,17 +3,10 @@
 namespace App\Services;
 
 use App\Models\League;
-use App\Repositories\Contracts\ScoreboardInterface;
+use App\Services\Contracts\ChampionshipPredictionServiceInterface;
 
-class ChampionshipPredictionService
+class ChampionshipPredictionService implements ChampionshipPredictionServiceInterface
 {
-    public function __construct(
-        protected ScoreboardInterface $scoreboardRepository,
-    )
-    {
-        //
-    }
-
     const REMAINING_WEEKS = 3;
     const WIN_CONSTANT = 50;
 
