@@ -14,7 +14,7 @@ class PlayController extends Controller
         //
     }
 
-    public function playNextWeek(League $league)
+    public function playNextWeek(League $league): \Illuminate\Http\JsonResponse
     {
         try {
             $nextWeek = $league->at_week+1;
@@ -28,7 +28,7 @@ class PlayController extends Controller
         ]);
     }
 
-    public function playAllWeeks(League $league)
+    public function playAllWeeks(League $league): \Illuminate\Http\JsonResponse
     {
         try {
             $this->playService->playAllWeeks($league);

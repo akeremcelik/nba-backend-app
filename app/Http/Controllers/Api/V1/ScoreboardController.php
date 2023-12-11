@@ -11,9 +11,7 @@ use Illuminate\Http\Request;
 
 class ScoreboardController extends Controller
 {
-    public function __construct(
-        protected ScoreboardInterface $scoreboardRepository,
-    )
+    public function __construct(protected ScoreboardInterface $scoreboardRepository)
     {
         //
     }

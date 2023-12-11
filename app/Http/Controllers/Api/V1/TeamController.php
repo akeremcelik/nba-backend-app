@@ -14,7 +14,7 @@ class TeamController extends Controller
         //
     }
 
-    public function getTeams()
+    public function getTeams(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $teams = $this->teamRepository->getTeams();
 

@@ -13,14 +13,12 @@ use Illuminate\Http\Request;
 
 class FixtureController extends Controller
 {
-    public function __construct(
-        protected FixtureServiceInterface $fixtureService,
-    )
+    public function __construct(protected FixtureServiceInterface $fixtureService,)
     {
         //
     }
 
-    public function generateFixtures(LeagueServiceInterface $leagueService)
+    public function generateFixtures(LeagueServiceInterface $leagueService): LeagueResource
     {
         $league = $leagueService->create();
         $this->fixtureService->generate($league->id);
