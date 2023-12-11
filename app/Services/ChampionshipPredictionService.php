@@ -9,6 +9,7 @@ class ChampionshipPredictionService implements ChampionshipPredictionServiceInte
 {
     const REMAINING_WEEKS = 3;
     const WIN_CONSTANT = 20;
+    const LOSE_CONSTANT = 5;
     const NEGATIVE_PREDICTION_CONSTANT = 5;
 
     public function getPredictions(League $league, $scoreboards): array
@@ -45,7 +46,9 @@ class ChampionshipPredictionService implements ChampionshipPredictionServiceInte
             if (($scoreboard->won + $remainingWeeks) < $maxWin) {
                 $team->prediction = 0;
             } else {
-                $prediction = ($scoreboard->won * self::WIN_CONSTANT) + ($scoreboard->average / 3);
+                $prediction = ($scoreboard->won * self::WIN_CONSTANT) -
+                    ($scoreboard->lost * self::LOSE_CONSTANT) +
+                    ($scoreboard->average / 3);
 
                 if ($prediction < 0) {
                     $prediction = self::NEGATIVE_PREDICTION_CONSTANT;
