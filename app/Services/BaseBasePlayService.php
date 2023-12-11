@@ -10,6 +10,7 @@ use App\Services\Contracts\BasePlayServiceInterface;
 use App\Services\Contracts\ScoreboardServiceInterface;
 use App\Services\Contracts\ScoreServiceInterface;
 use App\Services\Contracts\StrengthServiceInterface;
+use Illuminate\Support\Facades\DB;
 
 class BaseBasePlayService implements BasePlayServiceInterface
 {
@@ -23,14 +24,16 @@ class BaseBasePlayService implements BasePlayServiceInterface
 
     public function playWeek(int $week): void
     {
-        $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($this->league->id, $week);
-        foreach ($fixtures as $fixture) {
-            $this->playFixture($fixture);
-        }
+        DB::transaction(function () use ($week) {
+            $fixtures = $this->fixtureRepository->getFixturesByLeagueAndWeek($this->league->id, $week);
+            foreach ($fixtures as $fixture) {
+                $this->playFixture($fixture);
+            }
 
-        app(LeagueInterface::class)->updateLeague($this->league->id, [
-            'at_week' => $week
-        ]);
+            app(LeagueInterface::class)->updateLeague($this->league->id, [
+                'at_week' => $week
+            ]);
+        });
     }
 
     public function playFixture(Fixture $fixture): void
